@@ -868,4 +868,38 @@
     </script>
 </body>
 </html>
+<!-- SiberKalkan Yerel Sayac Baslangic -->
+<div id="sk-sayac-kutusu" style="max-width: 680px; margin: 24px auto; padding: 14px 18px; border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 10px; background: rgba(15, 23, 42, 0.85); color: #e2e8f0; font-family: system-ui, -apple-system, sans-serif; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px;">
+  <span><strong>Ziyaretçi Kaydı</strong> (Yerel Tarayıcı)</span>
+  <span>Toplam: <strong id="sk-toplam" style="color: #38bdf8;">0</strong> · Bugün: <strong id="sk-bugun" style="color: #4ade80;">0</strong></span>
+</div>
+
+<script>
+  (function () {
+    const bugunTarih = new Date().toISOString().slice(0, 10);
+    const toplamKey = "sk_toplam_goruntulenme";
+    const bugunTarihKey = "sk_son_tarih";
+    const bugunSayiKey = "sk_bugun_goruntulenme";
+
+    let toplam = parseInt(localStorage.getItem(toplamKey) || "0", 10) + 1;
+    let kayitliTarih = localStorage.getItem(bugunTarihKey);
+    let bugun = parseInt(localStorage.getItem(bugunSayiKey) || "0", 10);
+
+    if (kayitliTarih !== bugunTarih) {
+      bugun = 1;
+      localStorage.setItem(bugunTarihKey, bugunTarih);
+    } else {
+      bugun += 1;
+    }
+
+    localStorage.setItem(toplamKey, String(toplam));
+    localStorage.setItem(bugunSayiKey, String(bugun));
+
+    const toplamEl = document.getElementById("sk-toplam");
+    const bugunEl = document.getElementById("sk-bugun");
+    if (toplamEl) toplamEl.textContent = toplam;
+    if (bugunEl) bugunEl.textContent = bugun;
+  })();
+</script>
+<!-- SiberKalkan Yerel Sayac Bitis -->
 ```
