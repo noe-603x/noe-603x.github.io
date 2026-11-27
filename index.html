@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Siber Rehber — Güvende Kalmanın A’dan Z’ye Kılavuzu</title>
+<meta name="description" content="Oltalama, parola güvenliği, fidye yazılımı, mobil güvenlik ve daha fazlası: Türkçe siber güvenlik rehberi.">
+<style>
+:root{--bg:#0a0816;--bg2:#120f26;--cd:#171335;--tx:#f1ecff;--mu:#a59ccc;--a:#ffb020;--b:#9b6bff;--c:#ff4f9a;--ok:#35e0a1;--bd:#2a2352;--nav:rgba(10,8,22,.7)}
+@media(prefers-color-scheme:light){:root:not([data-t="d"]){--bg:#faf7ff;--bg2:#efe9ff;--cd:#fff;--tx:#1a1238;--mu:#5d5486;--a:#c77700;--b:#6c3be0;--c:#d4256f;--ok:#0b8a5f;--bd:#ddd3f7;--nav:rgba(250,247,255,.8)}}
+:root[data-t="l"]{--bg:#faf7ff;--bg2:#efe9ff;--cd:#fff;--tx:#1a1238;--mu:#5d5486;--a:#c77700;--b:#6c3be0;--c:#d4256f;--ok:#0b8a5f;--bd:#ddd3f7;--nav:rgba(250,247,255,.8)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.7 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+body::before{content:"";position:fixed;width:520px;height:520px;border-radius:50%;left:var(--x,50%);top:var(--y,30%);transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(155,107,255,.18),transparent 65%);pointer-events:none;z-index:0}
+main,nav,footer{position:relative;z-index:1}
+nav{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:12px 5%;background:var(--nav);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd)}
+.lg{font-weight:900;font-size:18px}.lg i{font-style:normal;color:var(--a)}
+nav .l{display:none;gap:18px}@media(min-width:900px){nav .l{display:flex}}
+nav a{color:var(--mu);text-decoration:none;font-size:14px}nav a:hover{color:var(--a)}
+button{font:inherit;cursor:pointer;color:inherit}
+.tg{background:var(--cd);border:1px solid var(--bd);border-radius:20px;padding:5px 12px}
+#pg{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--a),var(--c),var(--b));z-index:40}
+.hero{min-height:90vh;display:grid;place-items:center;text-align:center;padding:70px 6% 50px}
+.hero>div{max-width:880px}
+.radar{width:150px;height:150px;margin:0 auto 26px;border-radius:50%;border:2px solid var(--b);position:relative;background:repeating-radial-gradient(circle,transparent 0 24px,var(--bd) 25px 26px);overflow:hidden}
+.radar::after{content:"";position:absolute;inset:0;background:conic-gradient(from 0deg,transparent 0 300deg,rgba(53,224,161,.55) 360deg);animation:sp 3s linear infinite;border-radius:50%}
+.radar b{position:absolute;width:9px;height:9px;border-radius:50%;background:var(--c);animation:bl 3s infinite}
+@keyframes sp{to{transform:rotate(360deg)}}@keyframes bl{0%,70%{opacity:0}80%{opacity:1}100%{opacity:0}}
+h1{font-size:clamp(38px,8.5vw,84px);line-height:1.02;margin:0 0 18px;font-weight:900;letter-spacing:-1px}
+.gr{background:linear-gradient(100deg,var(--a),var(--c),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mu);font-size:clamp(16px,2.4vw,20px);max-width:660px;margin:0 auto 28px}
+#typ{color:var(--ok);font-family:ui-monospace,Menlo,Consolas,monospace;min-height:28px;margin-bottom:22px}
+.btn{display:inline-block;border:0;border-radius:999px;padding:13px 26px;margin:5px;font-weight:700;text-decoration:none;background:linear-gradient(100deg,var(--a),var(--c));color:#1a0f00;transition:.25s}
+.btn:hover{transform:translateY(-3px) scale(1.03)}.btn.o{background:none;border:1px solid var(--b);color:var(--tx)}
+section{padding:72px 6%;max-width:1100px;margin:auto}
+.k{color:var(--a);font:700 13px ui-monospace,Menlo,monospace;letter-spacing:2px;text-transform:uppercase}
+h2{font-size:clamp(26px,5vw,42px);margin:6px 0 8px;line-height:1.15}.sub{color:var(--mu);margin:0 0 32px;max-width:680px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+.s{background:var(--cd);border:1px solid var(--bd);border-radius:18px;padding:22px;text-align:center}
+.s b{display:block;font-size:40px;background:linear-gradient(100deg,var(--a),var(--c));-webkit-background-clip:text;background-clip:text;color:transparent}
+.s span{color:var(--mu);font-size:14px}
+.note{color:var(--mu);font-size:12px;text-align:center;margin-top:12px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.tabs button{background:var(--cd);border:1px solid var(--bd);border-radius:999px;padding:8px 16px;font-size:14px}
+.tabs button.on{background:linear-gradient(100deg,var(--b),var(--c));border-color:transparent;color:#fff}
+.pn{display:none;background:var(--cd);border:1px solid var(--bd);border-radius:22px;padding:clamp(20px,4vw,36px);animation:fi .4s}
+.pn.on{display:block}@keyframes fi{from{opacity:0;transform:translateY(12px)}}
+.pn h3{margin:0 0 8px;font-size:24px}.pn p{color:var(--mu)}
+.pn h4{margin:20px 0 6px;color:var(--a)}
+.pn ul{margin:6px 0;padding-left:20px;color:var(--mu)}.pn li{margin:5px 0}.pn li b{color:var(--tx)}
+.warn{border-left:4px solid var(--c);background:rgba(255,79,154,.08);padding:12px 16px;border-radius:0 12px 12px 0;margin:14px 0;color:var(--tx)!important}
+.tip{border-left:4px solid var(--ok);background:rgba(53,224,161,.08);padding:12px 16px;border-radius:0 12px 12px 0;margin:14px 0;color:var(--tx)!important}
+.mf{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.fl{perspective:900px;height:210px;cursor:pointer}
+.fi{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.fl.f .fi{transform:rotateY(180deg)}
+.fl .fa,.fl .fb{position:absolute;inset:0;backface-visibility:hidden;border-radius:20px;padding:22px;display:flex;flex-direction:column;justify-content:center;border:1px solid var(--bd)}
+.fa{background:var(--cd)}.fb{background:linear-gradient(140deg,var(--b),var(--c));color:#fff;transform:rotateY(180deg)}
+.fa small{color:var(--c);font-weight:800;letter-spacing:1.5px}.fa p{font-size:18px;font-weight:700;margin:8px 0}.fa span{color:var(--mu);font-size:13px}
+.fb small{font-weight:800;letter-spacing:1.5px}.fb p{margin:8px 0;font-size:15px}
+.ir{counter-reset:s;display:grid;gap:12px}
+.ir li{list-style:none;counter-increment:s;background:var(--cd);border:1px solid var(--bd);border-radius:16px;padding:16px 16px 16px 64px;position:relative;color:var(--mu)}
+.ir li b{color:var(--tx);display:block}
+.ir li::before{content:counter(s);position:absolute;left:16px;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;background:linear-gradient(100deg,var(--a),var(--c));color:#1a0f00;font-weight:800;display:grid;place-items:center}
+#sr{width:100%;background:var(--cd);color:var(--tx);border:1px solid var(--bd);border-radius:14px;padding:14px 16px;font-size:16px;margin-bottom:16px}
+.gl{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.gl div{background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:14px 16px}
+.gl b{color:var(--a)}.gl span{display:block;color:var(--mu);font-size:14px}
+.sc{background:var(--bg2);border:1px solid var(--bd);border-radius:22px;padding:clamp(18px,4vw,34px)}
+.sc input{width:100%;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:12px;padding:14px;font:18px ui-monospace,Menlo,monospace}
+.br{height:10px;background:var(--bd);border-radius:6px;margin:14px 0 8px;overflow:hidden}#bf{height:100%;width:0;background:var(--c);transition:.3s}
+#rs{color:var(--mu);font-size:15px}
+.rv{opacity:0;transform:translateY(28px);transition:.8s}.rv.in{opacity:1;transform:none}
+footer{border-top:1px solid var(--bd);text-align:center;padding:40px 6%;color:var(--mu);font-size:14px}
+footer p{max-width:720px;margin:8px auto}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div id="pg"></div>
+<nav>
+  <div class="lg">Siber<i>Rehber</i></div>
+  <div class="l"><a href="#rehber">Rehber</a><a href="#mit">Mit mi, Gerçek mi?</a><a href="#acil">Hacklendim!</a><a href="#sozluk">Sözlük</a><a href="#parola">Parola Testi</a></div>
+  <button class="tg" id="tg" aria-label="Tema">🌓</button>
+</nav>
+<main>
+<header class="hero"><div>
+  <div class="radar"><b style="top:30%;left:62%"></b><b style="top:66%;left:28%;animation-delay:1s"></b><b style="top:44%;left:76%;animation-delay:2s"></b></div>
+  <h1>İnternette <span class="gr">güvende kal.</span></h1>
+  <div id="typ"></div>
+  <p>Oltalamadan fidye yazılımına, parolalardan mobil güvenliğe kadar herkesin bilmesi gereken her şey; sade, uygulanabilir ve Türkçe.</p>
+  <a class="btn" href="#rehber">Rehbere Başla</a><a class="btn o" href="#acil">Hacklendiysem?</a>
+</div></header>
+
+<section class="rv">
+  <div class="stats">
+    <div class="s"><b data-n="90">0</b><span>% veri ihlali insan hatasıyla ilişkilidir*</span></div>
+    <div class="s"><b data-n="3">0</b><span>aylık ortalama süre: sızıntının fark edilmesi çoğu zaman aylar alır*</span></div>
+    <div class="s"><b data-n="99">0</b><span>% hesap ele geçirme saldırısı 2FA ile önlenebilir*</span></div>
+    <div class="s"><b data-n="1">0</b><span>tıklama bile tüm cihazı tehlikeye sokabilir</span></div>
+  </div>
+  <p class="note">*Çeşitli sektör raporlarından derlenmiş yaklaşık değerlerdir; yıla ve kaynağa göre değişir.</p>
+</section>
+
+<section id="rehber" class="rv">
+  <div class="k">// Rehber</div><h2>Konu konu korunma yolları</h2><p class="sub">Bir başlık seç, ne olduğunu, nasıl fark edeceğini ve ne yapacağını öğren.</p>
+  <div class="tabs" id="tabs"></div>
+
+  <div class="pn on"><h3>🎣 Oltalama (Phishing)</h3><p>Güvendiğin biri gibi davranıp seni sahte bir sayfaya yönlendiren veya bilgi isteyen mesajlardır. E-posta, SMS (smishing) ve telefon (vishing) yoluyla gelebilir.</p>
+    <h4>Nasıl anlarsın?</h4><ul><li><b>Aciliyet baskısı:</b> “Hesabın 1 saat içinde kapanacak.”</li><li><b>Gönderen adresi:</b> Kurum adına benzeyen ama yazımı farklı alan adları (ör. harf değişikliği).</li><li><b>Şüpheli link:</b> Tıklamadan önce üzerine basılı tutup gerçek adresi gör.</li><li><b>Beklenmedik ek dosya</b> veya “ödül kazandınız” mesajı.</li></ul>
+    <div class="tip">Yapman gereken: Linke tıklama. Kurumun uygulamasını veya adresini kendin yazarak aç ve oradan kontrol et.</div></div>
+
+  <div class="pn"><h3>🔑 Parola Güvenliği</h3><p>Parola, dijital kapının anahtarıdır. Aynı anahtarı her kapıda kullanırsan, biri kopyalandığında hepsi açılır.</p>
+    <h4>Altın kurallar</h4><ul><li><b>Uzun olsun:</b> En az 12–16 karakter; rastgele 4–5 kelimelik bir parola cümlesi çok etkilidir.</li><li><b>Benzersiz olsun:</b> Her hesap için ayrı parola.</li><li><b>Yönetici kullan:</b> Bir parola yöneticisi bunların hepsini senin yerine hatırlar.</li><li><b>Kişisel bilgi kullanma:</b> Doğum yılı, isim, takım adı ilk denenenlerdir.</li></ul>
+    <div class="warn">Parolanı kimseyle paylaşma; gerçek bir kurum seni arayıp parolanı veya doğrulama kodunu asla istemez.</div></div>
+
+  <div class="pn"><h3>📲 İki Adımlı Doğrulama (2FA)</h3><p>Parolan çalınsa bile hesabına girilmesini engelleyen ikinci kapıdır. En az emekle en çok koruma sağlayan önlemlerden biridir.</p>
+    <h4>Yöntemler (güçlüden zayıfa)</h4><ul><li><b>Donanım anahtarı (FIDO2/passkey):</b> Oltalamaya en dayanıklı yöntem.</li><li><b>Doğrulayıcı uygulama:</b> Süreli kod üretir; SMS’ten daha güvenli.</li><li><b>SMS kodu:</b> Hiç yoktan iyidir ama SIM kopyalamaya açıktır.</li></ul>
+    <div class="tip">Önce e-posta, bankacılık ve sosyal medya hesaplarında aç. Yedek kodlarını güvenli bir yerde sakla.</div></div>
+
+  <div class="pn"><h3>🔒 Fidye Yazılımı</h3><p>Dosyalarını şifreleyip geri vermek için para isteyen zararlı yazılımdır. Genellikle sahte ek dosya, korsan yazılım veya güvenlik açığı üzerinden bulaşır.</p>
+    <h4>Korunma</h4><ul><li><b>3-2-1 yedek kuralı:</b> 3 kopya, 2 farklı ortam, 1 tanesi çevrimdışı/uzakta.</li><li>Sistemini ve uygulamalarını güncel tut.</li><li>Tanımadığın makro/ek dosyaları açma.</li></ul>
+    <div class="warn">Bulaştıysa: cihazı ağdan çıkar, fidyeyi ödemeden önce uzmana ve yetkili birime danış. Ödeme, verilerin geri geleceğini garanti etmez.</div></div>
+
+  <div class="pn"><h3>📶 Wi‑Fi ve VPN</h3><p>Halka açık ağlar, trafiğini dinlemek isteyenler için fırsattır. Sahte “Ücretsiz_WiFi” ağları da yaygındır.</p>
+    <ul><li>Ağ adını işletmeye <b>sorarak</b> doğrula.</li><li>Banka ve e-posta gibi hassas işlemleri mümkünse <b>mobil veriyle</b> yap.</li><li>Güvenilir bir VPN trafiğini şifreler; ancak VPN sağlayıcısına güvenmen gerekir.</li><li>Evdeki modemin varsayılan yönetici parolasını değiştir ve WPA2/WPA3 kullan.</li></ul></div>
+
+  <div class="pn"><h3>📱 Mobil Güvenlik</h3><p>Telefonun; bankan, fotoğrafların ve kimliğin demektir.</p>
+    <ul><li>Uygulamaları sadece <b>resmî mağazalardan</b> indir.</li><li>Uygulama izinlerini sorgula: Fener uygulaması konumunu neden istiyor?</li><li>Ekran kilidi ve cihaz şifrelemeyi aç; “Cihazımı bul” özelliğini etkinleştir.</li><li>Bilinmeyen QR kodlarını taramadan önce düşün.</li></ul></div>
+
+  <div class="pn"><h3>🧑‍👩‍👧 Sosyal Medya ve Aile</h3><p>Paylaştığın her bilgi, sosyal mühendislik için malzemedir.</p>
+    <ul><li>Gizlilik ayarlarını gözden geçir; profilini sadece tanıdıklarına aç.</li><li>Doğum tarihi, adres, bilet ve kimlik fotoğrafı paylaşma.</li><li>Çocuklarla “tanımadığın biri yazarsa bana söyle” konusunu açık konuş.</li><li>Yaşlı yakınlarına “arayıp para isteyen akraba/yetkili” dolandırıcılığını anlat.</li></ul></div>
+</section>
+
+<section id="mit" class="rv">
+  <div class="k">// Mit mi, gerçek mi?</div><h2>Yanlış bilinenler</h2><p class="sub">Kartlara dokun, doğrusunu gör.</p>
+  <div class="mf">
+    <div class="fl"><div class="fi"><div class="fa"><small>MİT</small><p>“Beni kim hackleyecek ki, önemsiz biriyim.”</p><span>Çevirmek için dokun</span></div><div class="fb"><small>GERÇEK</small><p>Saldırıların çoğu otomatiktir ve rastgele hedef seçer. Önemli olman gerekmez, açık olman yeter.</p></div></div></div>
+    <div class="fl"><div class="fi"><div class="fa"><small>MİT</small><p>“Antivirüs varsa her şeyden korunurum.”</p><span>Çevirmek için dokun</span></div><div class="fb"><small>GERÇEK</small><p>Antivirüs önemli bir katmandır ama oltalama gibi insan odaklı saldırıları tek başına durduramaz.</p></div></div></div>
+    <div class="fl"><div class="fi"><div class="fa"><small>MİT</small><p>“Gizli sekme beni görünmez yapar.”</p><span>Çevirmek için dokun</span></div><div class="fb"><small>GERÇEK</small><p>Gizli sekme sadece cihazında geçmiş tutmaz. İnternet sağlayıcın ve siteler yine seni görebilir.</p></div></div></div>
+    <div class="fl"><div class="fi"><div class="fa"><small>MİT</small><p>“Kilit simgesi varsa site güvenlidir.”</p><span>Çevirmek için dokun</span></div><div class="fb"><small>GERÇEK</small><p>Kilit sadece bağlantının şifreli olduğunu gösterir. Dolandırıcı siteler de HTTPS kullanabilir.</p></div></div></div>
+  </div>
+</section>
+
+<section id="acil" class="rv">
+  <div class="k">// Acil durum</div><h2>Hacklendiğimi düşünüyorum, ne yapmalıyım?</h2><p class="sub">Panik yapma; sırayla şu adımları uygula.</p>
+  <ol class="ir" style="padding:0">
+    <li><b>Bağlantıyı kes.</b>Etkilenen cihazı interneten ayır (Wi‑Fi’yi kapat, kabloyu çek).</li>
+    <li><b>Parolaları temiz bir cihazdan değiştir.</b>Önce e-posta, sonra banka ve diğer hesaplar.</li>
+    <li><b>2FA’yı aç.</b>Henüz açık değilse tüm önemli hesaplarda etkinleştir.</li>
+    <li><b>Bankanı ara.</b>Para hareketi şüphesi varsa kartı/hesabı hemen kilitlet.</li>
+    <li><b>Cihazı tara ve güncelle.</b>Güvenilir bir güvenlik yazılımıyla tara; gerekirse fabrika ayarlarına döndür.</li>
+    <li><b>Oturumları sonlandır.</b>Hesaplarında “tüm cihazlardan çıkış yap” seçeneğini kullan.</li>
+    <li><b>Bildir.</b>Gerekiyorsa yetkili siber suç birimine veya ilgili kuruma başvur; kanıtları (ekran görüntüleri, mesajlar) sakla.</li>
+  </ol>
+</section>
+
+<section id="sozluk" class="rv">
+  <div class="k">// Sözlük</div><h2>Siber güvenlik terimleri</h2><p class="sub">Aramak için yazmaya başla.</p>
+  <input id="sr" placeholder="Terim ara… (ör. VPN, malware)" autocomplete="off">
+  <div class="gl" id="gl"></div>
+</section>
+
+<section id="parola" class="rv">
+  <div class="k">// Araç</div><h2>Parola gücü testi</h2><p class="sub">Analiz tamamen tarayıcında yapılır, yazdığın hiçbir şey gönderilmez veya saklanmaz.</p>
+  <div class="sc"><input id="pw" type="password" placeholder="Bir parola dene…" autocomplete="off" spellcheck="false">
+  <label style="display:block;margin-top:10px;font-size:14px;color:var(--mu)"><input type="checkbox" id="sh" style="width:auto"> Göster</label>
+  <div class="br"><div id="bf"></div></div><div id="rs">Parola yazmaya başla.</div></div>
+</section>
+</main>
+
+<footer>
+  <div class="lg">Siber<i>Rehber</i></div>
+  <p>Bu site eğitim ve bilgilendirme amaçlıdır. Şüpheli bir durumda ilgili kurumu resmî kanallardan arayın.</p>
+  <p>Bu sayfa hiçbir kişisel veri toplamaz veya üçüncü taraflara göndermez.</p>
+</footer>
+
+<script>
+(function(){
+var d=document,r=d.documentElement;
+// Tema
+d.getElementById('tg').onclick=function(){var dark=getComputedStyle(r).getPropertyValue('--bg').trim()==='#0a0816';r.setAttribute('data-t',dark?'l':'d')};
+// İlerleme + fare ışığı
+addEventListener('scroll',function(){var h=r.scrollHeight-innerHeight;d.getElementById('pg').style.width=(h>0?scrollY/h*100:0)+'%'});
+addEventListener('pointermove',function(e){r.style.setProperty('--x',e.clientX+'px');r.style.setProperty('--y',e.clientY+'px')});
+// Yazı efekti
+var ph=['> parolanı güçlendir','> iki adımlı doğrulamayı aç','> şüpheli linke tıklama','> yedeğini al, güncel kal'],pi=0,ci=0,del=false,t=d.getElementById('typ');
+(function tp(){var s=ph[pi];ci+=del?-1:1;t.textContent=s.slice(0,ci)+'▌';var w=del?30:70;
+if(!del&&ci===s.length){del=true;w=1400}else if(del&&ci===0){del=false;pi=(pi+1)%ph.length;w=300}setTimeout(tp,w)})();
+// Sekmeler
+var pn=d.querySelectorAll('.pn'),tb=d.getElementById('tabs'),nm=['Oltalama','Parola','2FA','Fidye Yazılımı','Wi‑Fi & VPN','Mobil','Sosyal Medya & Aile'];
+nm.forEach(function(n,i){var b=d.createElement('button');b.textContent=n;if(!i)b.className='on';b.onclick=function(){pn.forEach(function(p,j){p.classList.toggle('on',i===j)});tb.querySelectorAll('button').forEach(function(x,j){x.classList.toggle('on',i===j)})};tb.appendChild(b)});
+// Kart çevirme
+d.querySelectorAll('.fl').forEach(function(f){f.onclick=function(){f.classList.toggle('f')}});
+// Sayaç + görünürlük
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;e.target.classList.add('in');
+e.target.querySelectorAll('[data-n]').forEach(function(b){if(b.dataset.d)return;b.dataset.d=1;var T=+b.dataset.n,i=0,s=setInterval(function(){i+=Math.ceil(T/35);if(i>=T){i=T;clearInterval(s)}b.textContent=i},35)})})},{threshold:.15});
+d.querySelectorAll('.rv').forEach(function(e){io.observe(e)});
+// Sözlük
+var G=[['Phishing (Oltalama)','Sahte mesaj veya sayfalarla bilgi çalma girişimi.'],['Malware','Cihaza zarar veren veya veri çalan her türlü zararlı yazılım.'],['Ransomware','Dosyaları şifreleyip fidye isteyen zararlı yazılım.'],['VPN','İnternet trafiğini şifreli bir tünelden geçiren hizmet.'],['2FA / MFA','Girişte parolaya ek bir doğrulama adımı isteyen sistem.'],['Passkey','Parolasız, cihaz ve biyometriğe dayanan oltalamaya dayanıklı giriş yöntemi.'],['Firewall (Güvenlik duvarı)','Ağ trafiğini kurallara göre filtreleyen koruma katmanı.'],['Sosyal Mühendislik','İnsanı manipüle ederek bilgi veya erişim elde etme.'],['Botnet','Uzaktan kontrol edilen, ele geçirilmiş cihazlar ağı.'],['DDoS','Bir hizmeti yoğun sahte trafikle erişilemez hale getirme saldırısı.'],['Zero-day','Üreticinin henüz bilmediği, yamasız güvenlik açığı.'],['Keylogger','Tuş vuruşlarını gizlice kaydeden yazılım.'],['Spyware','Kullanıcıyı gizlice izleyen yazılım.'],['Şifreleme','Veriyi anahtarı olmayanların okuyamayacağı hale getirme.'],['HTTPS','Tarayıcı ile site arasındaki bağlantıyı şifreleyen protokol.'],['Veri ihlali','Kişisel verilerin yetkisiz kişilerce ele geçirilmesi veya sızdırılması.'],['SIM kopyalama','Telefon numaranı ele geçirip SMS kodlarını yönlendirme saldırısı.'],['Hash','Veriyi geri döndürülemez bir özet değere çeviren işlem; parolalar bununla saklanır.']];
+var gl=d.getElementById('gl'),sr=d.getElementById('sr');
+function rg(q){q=q.toLowerCase();gl.innerHTML='';var n=0;G.forEach(function(g){if((g[0]+g[1]).toLowerCase().indexOf(q)>-1){n++;var e=d.createElement('div');var b=d.createElement('b');b.textContent=g[0];var s=d.createElement('span');s.textContent=g[1];e.appendChild(b);e.appendChild(s);gl.appendChild(e)}});if(!n)gl.textContent='Sonuç bulunamadı.'}
+sr.oninput=function(){rg(sr.value)};rg('');
+// Parola testi
+var pw=d.getElementById('pw'),bf=d.getElementById('bf'),rs=d.getElementById('rs');
+d.getElementById('sh').onchange=function(){pw.type=this.checked?'text':'password'};
+var cm=['123456','password','qwerty','111111','12345678','abc123','iloveyou','sifre','şifre','admin','parola','galatasaray','fenerbahce','besiktas','trabzon'];
+pw.oninput=function(){var p=pw.value;if(!p){bf.style.width='0';rs.textContent='Parola yazmaya başla.';return}
+var pool=0;if(/[a-zçğıöşü]/.test(p))pool+=29;if(/[A-ZÇĞİÖŞÜ]/.test(p))pool+=29;if(/\d/.test(p))pool+=10;if(/[^\wçğıöşüÇĞİÖŞÜ]/.test(p))pool+=32;
+var bits=p.length*Math.log2(pool||1),lw=p.toLowerCase();
+if(cm.some(function(w){return lw.indexOf(w)>-1}))bits=Math.min(bits,20);
+if(/(.)\1{2,}/.test(p)||/(012|123|234|345|456|567|678|789|abc|qwe)/i.test(p))bits-=10;bits=Math.max(bits,0);
+var lv=bits<28?['Çok zayıf','#ff4f6a']:bits<40?['Zayıf','#ff9a3c']:bits<60?['Orta','#ffd23c']:bits<80?['Güçlü','#7be04a']:['Çok güçlü','#35e0a1'];
+bf.style.width=Math.max(Math.min(100,bits/80*100),6)+'%';bf.style.background=lv[1];
+var s=Math.pow(2,bits)/1e10,tm;if(s<1)tm='anında';else if(s<60)tm=Math.round(s)+' saniye';else if(s<3600)tm=Math.round(s/60)+' dakika';else if(s<86400)tm=Math.round(s/3600)+' saat';else if(s<3.15e7)tm=Math.round(s/86400)+' gün';else if(s<3.15e9)tm=Math.round(s/3.15e7)+' yıl';else tm='yüzyıllar';
+rs.innerHTML='';var b=d.createElement('b');b.style.color=lv[1];b.textContent=lv[0];rs.appendChild(b);rs.appendChild(d.createTextNode(' — saniyede 10 milyar denemeyle tahmini kırılma süresi: '+tm+'.'+(p.length<12?' İpucu: en az 12 karakter dene.':'')))};
+})();
+</script>
+</body>
+</html>
